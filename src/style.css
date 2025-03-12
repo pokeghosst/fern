@@ -56,7 +56,8 @@ button {
     padding: 6px 12px;
     cursor: pointer;
     text-align: center;
-    transition: all 0.3s;
+    transition-property: background-color, color;
+    transition-duration: 0.3s;
 }
 
 button:hover {
@@ -69,6 +70,7 @@ button:hover {
     -webkit-column-break-inside: avoid;
     break-inside: avoid;
     page-break-inside: avoid;
+    line-break: anywhere;
     padding: 1rem;
     border: 1px solid var(--border);
     border-radius: 6px;

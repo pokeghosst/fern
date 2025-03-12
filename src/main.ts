@@ -18,26 +18,70 @@ if (pasteContents) {
     pasteFormContainer.style.display = 'none'
     pasteContainer.style.display = 'block'
 
-    const pasteParagraph = document.createElement('p')
-    const decodedBytes = decodeFromBase64(pasteContents)
+    const paragraphEl = document.createElement('p')
+    // const decodedBytes = decodeFromBase64(pasteContents)
 
-    pasteParagraph.textContent = decompress(decodedBytes) as string
-    pasteContainer.appendChild(pasteParagraph)
+    // paragraphEl.textContent = decompress(decodedBytes) as string
+    paragraphEl.textContent = pasteContents
+    pasteContainer.appendChild(paragraphEl)
 }
 
 pasteForm.addEventListener('submit', (e) => {
     e.preventDefault()
+
+    const passcode = prompt('Enter a passcode to derive the key from')
+
+    if (!passcode) {
+        alert('Passcode is required!')
+        return
+    }
 
     const formData = new FormData(pasteForm)
     const paste = formData.get('paste')
 
     if (!paste) return
 
-    const compressedBytes = compress(paste.toString())
-    const encodedCompressed = encodeToBase64(new Uint8Array(compressedBytes))
+    const compressedBytes = new Uint8Array(compress(paste.toString()))
 
-    const params = new URLSearchParams(window.location.search)
-    params.set('paste', encodedCompressed)
+    encrypt(compressedBytes, passcode).then((encryptedBytes) => {
+        const encryptedBytesArray = new Uint8Array(encryptedBytes)
+        const encodedString = encodeToBase64(encryptedBytesArray)
 
-    window.location.search = params.toString()
+        const params = new URLSearchParams(window.location.search)
+        params.set('paste', encodedString)
+
+        window.location.search = params.toString()
+    })
 })
+
+async function getKeyMaterial(passcode: string): Promise<CryptoKey> {
+    const enc = new TextEncoder()
+    return await window.crypto.subtle.importKey(
+        'raw',
+        enc.encode(passcode),
+        'PBKDF2',
+        false,
+        ['deriveKey']
+    )
+}
+
+async function encrypt(plaintext: Uint8Array, passcode: string) {
+    const keyMaterial = await getKeyMaterial(passcode)
+    const salt = window.crypto.getRandomValues(new Uint8Array(16))
+    const iv = window.crypto.getRandomValues(new Uint8Array(12))
+
+    const key = await window.crypto.subtle.deriveKey(
+        {
+            name: 'PBKDF2',
+            salt,
+            iterations: 100000,
+            hash: 'SHA-256',
+        },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        true,
+        ['encrypt']
+    )
+
+    return window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext)
+}
