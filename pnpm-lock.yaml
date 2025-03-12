@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      lzma-web:
-        specifier: ^3.0.1
-        version: 3.0.1
+      lzma1:
+        specifier: latest
+        version: 0.0.5
     devDependencies:
       typescript:
         specifier: ~5.7.2
@@ -294,8 +294,9 @@ packages:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
 
-  lzma-web@3.0.1:
-    resolution: {integrity: sha512-sb5cdfd+PLNljK/HUgYzvnz4G7r0GFK8sonyGrqJS0FVyUQjFYcnmU2LqTWFi6r48lH1ZBstnxyLWepKM/t7QA==}
+  lzma1@0.0.5:
+    resolution: {integrity: sha512-cJHuUOUqS2gmcjyEYxrqSF/1tii8gr0wTdIa92fIq4ryJD4Iek28qaueRnD7JarRGROwSPM7J0rNTZdlKMRaxA==}
+    engines: {node: '>=18.8', npm: '>=7.0'}
 
   micromatch@4.0.8:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
@@ -559,7 +560,7 @@ snapshots:
 
   is-number@7.0.0: {}
 
-  lzma-web@3.0.1: {}
+  lzma1@0.0.5: {}
 
   micromatch@4.0.8:
     dependencies:
