@@ -76,6 +76,12 @@ decryptButton.addEventListener('click', () => {
 })
 
 clearPasteButton.addEventListener('click', () => {
+    pasteFormContainer.style.display = 'block'
+    pasteContainer.style.display = 'none'
+    pasteActionsContainer.style.display = 'none'
+
+    pasteContainer.innerText = ''
+
     const params = new URLSearchParams(window.location.search)
     params.delete('paste')
     window.location.search = params.toString()
