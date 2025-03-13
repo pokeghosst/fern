@@ -12,6 +12,7 @@
                 <h1>
                     <img src="/favicon.svg" alt="fern icon" />
                     fern
+                    <span>v0.1</span>
                 </h1>
             </nav>
         </header>
@@ -24,7 +25,13 @@
             <div id="pasteFormContainer">
                 <form id="pasteForm">
                     <label for="paste" hidden>paste</label>
-                    <textarea id="paste" name="paste"></textarea>
+                    <div class="grow-wrap">
+                        <textarea
+                            id="paste"
+                            name="paste"
+                            onInput="this.parentNode.dataset.replicatedValue = this.value"
+                        ></textarea>
+                    </div>
                     <button id="sendPaste">Paste</button>
                 </form>
             </div>

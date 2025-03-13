@@ -17,7 +17,6 @@ body {
 
 header {
     border-bottom: 1px solid var(--border);
-    margin-bottom: 1rem;
     padding: 0.25rem;
 }
 
@@ -25,7 +24,14 @@ nav,
 main {
     max-width: 768px;
     width: 90%;
+}
+
+nav {
     margin: 0 auto;
+}
+
+main {
+    margin: 1rem auto;
 }
 
 h1 {
@@ -36,6 +42,10 @@ h1 {
 h1 img {
     width: 1.5rem;
     height: auto;
+}
+
+h1 span {
+    font-size: 0.75rem;
 }
 
 form {
@@ -50,6 +60,12 @@ textarea {
     border-radius: 5px;
     resize: vertical;
     padding: 1rem;
+    field-sizing: normal;
+}
+
+textarea:focus-visible,
+button:focus-visible {
+    outline: 1px solid var(--primary);
 }
 
 button {
@@ -68,6 +84,25 @@ button {
 button:hover {
     background-color: var(--primary);
     color: var(--white);
+}
+
+.grow-wrap {
+    display: grid;
+}
+.grow-wrap::after {
+    content: attr(data-replicated-value) ' ';
+    white-space: pre-wrap;
+    visibility: hidden;
+}
+.grow-wrap > textarea {
+    resize: none;
+    overflow: hidden;
+}
+.grow-wrap > textarea,
+.grow-wrap::after {
+    padding: 0.5rem;
+    font: inherit;
+    grid-area: 1 / 1 / 2 / 2;
 }
 
 #pasteContainer {
