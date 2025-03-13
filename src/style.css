@@ -33,6 +33,11 @@ h1 {
     font-size: 1.75rem;
 }
 
+h1 img {
+    width: 1.5rem;
+    height: auto;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -77,4 +82,9 @@ button:hover {
     margin-bottom: 0.5rem;
     text-align: justify;
     box-shadow: 3px 3px 7px -4px var(--shadow);
+}
+
+#pasteActions {
+    gap: 0.5rem;
+    justify-content: end;
 }

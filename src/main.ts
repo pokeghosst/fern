@@ -11,19 +11,24 @@ const pasteContainer = document.getElementById(
 const pasteFormContainer = document.getElementById(
     'pasteFormContainer'
 ) as HTMLDivElement
+const pasteActionsContainer = document.getElementById(
+    'pasteActions'
+) as HTMLDivElement
+const decryptButton = document.getElementById(
+    'decryptButton'
+) as HTMLButtonElement
+const clearPasteButton = document.getElementById(
+    'clearButton'
+) as HTMLButtonElement
 
 const pasteContents = params.get('paste')
 
 if (pasteContents) {
     pasteFormContainer.style.display = 'none'
     pasteContainer.style.display = 'block'
+    pasteActionsContainer.style.display = 'flex'
 
-    const paragraphEl = document.createElement('p')
-    // const decodedBytes = decodeFromBase64(pasteContents)
-
-    // paragraphEl.textContent = decompress(decodedBytes) as string
-    paragraphEl.textContent = pasteContents
-    pasteContainer.appendChild(paragraphEl)
+    pasteContainer.innerText = pasteContents
 }
 
 pasteForm.addEventListener('submit', (e) => {
@@ -51,6 +56,22 @@ pasteForm.addEventListener('submit', (e) => {
         params.set('paste', encodedString)
 
         window.location.search = params.toString()
+    })
+})
+
+decryptButton.addEventListener('click', () => {
+    const passcode = prompt('Enter a passcode to derive the key from')
+
+    if (!passcode) {
+        alert('Passcode is required!')
+        return
+    }
+
+    const encodedString = pasteContainer.innerText
+    const decodedBytes = decodeFromBase64(encodedString)
+
+    decrypt(decodedBytes, passcode).then((plaintext) => {
+        pasteContainer.innerText = decompress(plaintext) as string
     })
 })
 
@@ -83,5 +104,39 @@ async function encrypt(plaintext: Uint8Array, passcode: string) {
         ['encrypt']
     )
 
-    return window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext)
+    const ciphertext = await window.crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        plaintext
+    )
+
+    return new Uint8Array([...salt, ...iv, ...new Uint8Array(ciphertext)])
+}
+
+async function decrypt(encryptedBytes: Uint8Array, passcode: string) {
+    const keyMaterial = await getKeyMaterial(passcode)
+    const salt = encryptedBytes.slice(0, 16)
+    const iv = encryptedBytes.slice(16, 28)
+    const ciphertext = encryptedBytes.slice(28)
+
+    const key = await window.crypto.subtle.deriveKey(
+        {
+            name: 'PBKDF2',
+            salt,
+            iterations: 100000,
+            hash: 'SHA-256',
+        },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        true,
+        ['decrypt']
+    )
+
+    const plaintext = await window.crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        ciphertext
+    )
+
+    return new Uint8Array(plaintext)
 }

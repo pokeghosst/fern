@@ -2,21 +2,28 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>fern</title>
     </head>
     <body>
         <header>
             <nav>
-                <h1>fern</h1>
+                <h1>
+                    <img src="/favicon.svg" alt="fern icon" />
+                    fern
+                </h1>
             </nav>
         </header>
         <main>
             <div id="pasteContainer"></div>
+            <div id="pasteActions" style="display: none">
+                <button id="decryptButton">Decrypt</button>
+                <button id="clearButton">Clear</button>
+            </div>
             <div id="pasteFormContainer">
                 <form id="pasteForm">
-                    <label for="paste" hidden>paste </label>
+                    <label for="paste" hidden>paste</label>
                     <textarea id="paste" name="paste"></textarea>
                     <button id="sendPaste">Paste</button>
                 </form>
