@@ -75,6 +75,12 @@ decryptButton.addEventListener('click', () => {
     })
 })
 
+clearPasteButton.addEventListener('click', () => {
+    const params = new URLSearchParams(window.location.search)
+    params.delete('paste')
+    window.location.search = params.toString()
+})
+
 async function getKeyMaterial(passcode: string): Promise<CryptoKey> {
     const enc = new TextEncoder()
     return await window.crypto.subtle.importKey(
