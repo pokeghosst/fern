@@ -16,60 +16,31 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { createEncryptedPaste, decryptPaste } from '../services/paste.service'
 import {
-    clearSearchParams,
-    setPasteToSearchParams,
-} from '../services/searchparams.service'
+    clearPaste,
+    createAndSharePaste,
+    decryptPaste,
+} from '../services/paste.service'
+import { PasteDisplayView } from './PasteDisplayView'
+import { PasteFormView } from './PasteFormView'
 
 export class UIController {
-    #pasteForm: HTMLFormElement
-    #pasteContainer: HTMLDivElement
-    #pasteFormContainer: HTMLDivElement
-    #pasteActions: HTMLDivElement
-    #decryptButton: HTMLButtonElement
-    #clearButton: HTMLButtonElement
+    #formView: PasteFormView
+    #displayView: PasteDisplayView
 
-    constructor() {
-        this.#pasteForm = this.getRequiredElement('pasteForm', HTMLFormElement)
-        this.#pasteContainer = this.getRequiredElement(
-            'pasteContainer',
-            HTMLDivElement
-        )
-        this.#pasteFormContainer = this.getRequiredElement(
-            'pasteFormContainer',
-            HTMLDivElement
-        )
-        this.#pasteActions = this.getRequiredElement(
-            'pasteActions',
-            HTMLDivElement
-        )
-        this.#decryptButton = this.getRequiredElement(
-            'decryptButton',
-            HTMLButtonElement
-        )
-        this.#clearButton = this.getRequiredElement(
-            'clearButton',
-            HTMLButtonElement
-        )
+    constructor(paste?: string | null) {
+        this.#formView = new PasteFormView()
+        this.#displayView = new PasteDisplayView()
 
-        this.init()
-    }
-
-    private init() {
         this.#registerHandlers()
+
+        if (paste) this.#showPaste(paste)
     }
 
     #registerHandlers() {
-        this.#pasteForm.addEventListener(
-            'submit',
-            this.#encryptPaste.bind(this)
-        )
-        this.#decryptButton.addEventListener(
-            'click',
-            this.#decryptPaste.bind(this)
-        )
-        this.#clearButton.addEventListener('click', this.clearPaste.bind(this))
+        this.#formView.onSubmit(this.#encryptPaste.bind(this))
+        this.#displayView.onDecrypt(this.#decryptPaste.bind(this))
+        this.#displayView.onClear(this.#clearPaste.bind(this))
     }
 
     async #encryptPaste(e: Event) {
@@ -82,16 +53,14 @@ export class UIController {
             return
         }
 
-        const paste = new FormData(this.#pasteForm).get('paste')?.toString()
+        const paste = this.#formView.getPasteContent()
 
         if (!paste) {
             alert('Nothing to encrypt!')
             return
         }
 
-        const encrypted = await createEncryptedPaste(paste, passcode)
-
-        setPasteToSearchParams(encrypted)
+        createAndSharePaste(paste, passcode)
     }
 
     async #decryptPaste() {
@@ -103,10 +72,10 @@ export class UIController {
         }
 
         try {
-            this.#pasteContainer.textContent = await decryptPaste(
-                this.#pasteContainer.innerText,
-                passcode
-            )
+            const ciphertextPaste = this.#displayView.getContent()
+            const plaintextPaste = await decryptPaste(ciphertextPaste, passcode)
+
+            this.#displayView.setContent(plaintextPaste)
         } catch (error) {
             alert(
                 'Could not decrypt. Please, check your password and try again.'
@@ -115,40 +84,17 @@ export class UIController {
         }
     }
 
-    showPaste(paste: string) {
-        this.#pasteFormContainer.style.display = 'none'
-        this.#pasteContainer.style.display = 'block'
-        this.#pasteActions.style.display = 'flex'
-
-        this.#pasteContainer.innerText = paste
+    #showPaste(paste: string) {
+        this.#formView.hide()
+        this.#displayView.show()
+        this.#displayView.setContent(paste)
     }
 
-    clearPaste() {
-        this.#pasteFormContainer.style.display = 'block'
-        this.#pasteContainer.style.display = 'none'
-        this.#pasteActions.style.display = 'none'
+    #clearPaste() {
+        this.#displayView.hide()
+        this.#displayView.clearContent()
+        this.#formView.show()
 
-        this.#pasteContainer.innerText = ''
-
-        clearSearchParams()
-    }
-
-    private getRequiredElement<T extends HTMLElement>(
-        id: string,
-        type: new () => T
-    ): T {
-        const element = document.getElementById(id)
-
-        if (!element) {
-            throw new Error(`Required element with id "${id}" not found in DOM`)
-        }
-
-        if (!(element instanceof type)) {
-            throw new Error(
-                `Element "${id}" is not of expected type ${type.name}`
-            )
-        }
-
-        return element as T
+        clearPaste()
     }
 }

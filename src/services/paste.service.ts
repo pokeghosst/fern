@@ -19,17 +19,33 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import { compress, decompress } from 'lzma1'
 import { decodeFromBase64, encodeToBase64 } from '../util/base64'
 import { decrypt, encrypt } from './crypto.service'
+import {
+    clearSearchParams,
+    setPasteToSearchParams,
+} from './searchparams.service'
 
-export async function createEncryptedPaste(content: string, passcode: string) {
+export async function createAndSharePaste(
+    content: string,
+    passcode: string
+): Promise<void> {
     const compressedBytes = new Uint8Array(compress(content))
-    const encryptedBytes = await encrypt(compressedBytes, passcode)
-    const encryptedBytesArray = new Uint8Array(encryptedBytes)
+    const encryptedBytesArray = new Uint8Array(
+        await encrypt(compressedBytes, passcode)
+    )
+    const ciphertext = encodeToBase64(encryptedBytesArray)
 
-    return encodeToBase64(encryptedBytesArray)
+    setPasteToSearchParams(ciphertext)
 }
 
-export async function decryptPaste(encodedPaste: string, passcode: string) {
+export async function decryptPaste(
+    encodedPaste: string,
+    passcode: string
+): Promise<string> {
     const decodedBytes = decodeFromBase64(encodedPaste)
     const plaintext = await decrypt(decodedBytes, passcode)
     return decompress(plaintext) as string
+}
+
+export function clearPaste(): void {
+    clearSearchParams()
 }
