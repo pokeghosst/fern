@@ -61,7 +61,7 @@ pasteForm.addEventListener('submit', (e) => {
     })
 })
 
-decryptButton.addEventListener('click', () => {
+decryptButton.addEventListener('click', async () => {
     const passcode = prompt('Enter a passcode to derive the key from')
 
     if (!passcode) {
@@ -69,12 +69,16 @@ decryptButton.addEventListener('click', () => {
         return
     }
 
-    const encodedString = pasteContainer.innerText
-    const decodedBytes = decodeFromBase64(encodedString)
+    try {
+        const encodedString = pasteContainer.innerText
+        const decodedBytes = decodeFromBase64(encodedString)
 
-    decrypt(decodedBytes, passcode).then((plaintext) => {
+        const plaintext = await decrypt(decodedBytes, passcode)
         pasteContainer.innerText = decompress(plaintext) as string
-    })
+    } catch (error) {
+        alert('Could not decrypt. Please, check your password and try again.')
+        console.error('Decryption error', error)
+    }
 })
 
 clearPasteButton.addEventListener('click', () => {
