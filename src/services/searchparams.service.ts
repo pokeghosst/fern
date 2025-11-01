@@ -16,10 +16,17 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-export function encodeToBase64(bytes: Uint8Array) {
-    return btoa(Array.from(bytes, (byte) => String.fromCharCode(byte)).join(''))
+export function getPasteFromSearchParams(): string | null {
+    const params = new URLSearchParams(window.location.search)
+    return params.get('paste')
 }
 
-export function decodeFromBase64(base64: string): Uint8Array {
-    return new Uint8Array([...atob(base64)].map((char) => char.charCodeAt(0)))
+export function setPasteToSearchParams(paste: string) {
+    const params = new URLSearchParams(window.location.search)
+    params.set('paste', paste)
+    window.location.search = params.toString()
+}
+
+export function clearSearchParams() {
+    window.location.search = ''
 }

@@ -1,94 +1,31 @@
-import { decompress } from 'lzma1'
-import { createEncryptedPaste, decryptPaste } from './services/paste.service'
+/*
+fern -- Frugal Ethereal encRypted pastebiN in a single HTML file
+Copyright (C) 2025 pokeghost.
+
+fern is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+fern is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+import { getPasteFromSearchParams } from './services/searchparams.service'
 
 import './style.css'
+import { UIController } from './ui/UIController'
 
-const params = new URLSearchParams(window.location.search)
-const pasteForm = document.getElementById('pasteForm') as HTMLFormElement
-const pasteContainer = document.getElementById(
-    'pasteContainer'
-) as HTMLDivElement
-const pasteFormContainer = document.getElementById(
-    'pasteFormContainer'
-) as HTMLDivElement
-const pasteActionsContainer = document.getElementById(
-    'pasteActions'
-) as HTMLDivElement
-const decryptButton = document.getElementById(
-    'decryptButton'
-) as HTMLButtonElement
-const clearPasteButton = document.getElementById(
-    'clearButton'
-) as HTMLButtonElement
+const paste = getPasteFromSearchParams()
+document.addEventListener('DOMContentLoaded', () => {
+    const controller = new UIController()
 
-const pasteContents = params.get('paste')
-
-if (pasteContents) {
-    pasteFormContainer.style.display = 'none'
-    pasteContainer.style.display = 'block'
-    pasteActionsContainer.style.display = 'flex'
-
-    pasteContainer.innerText = pasteContents
-}
-
-pasteForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-
-    const passcode = prompt('Enter a passcode to derive the key from')
-
-    if (!passcode) {
-        alert('Passcode is required!')
-        return
+    if (paste) {
+        controller.showPaste(paste)
     }
-
-    const formData = new FormData(pasteForm)
-    const paste = formData.get('paste')
-
-    if (!paste) return
-
-    try {
-        const encodedString = await createEncryptedPaste(
-            paste.toString(),
-            passcode
-        )
-
-        const params = new URLSearchParams(window.location.search)
-        params.set('paste', encodedString)
-
-        window.location.search = params.toString()
-    } catch (error) {
-        alert('Encryption failed. Please try again.')
-        console.error('Encryption error:', error)
-    }
-})
-
-decryptButton.addEventListener('click', async () => {
-    const passcode = prompt('Enter a passcode to derive the key from')
-
-    if (!passcode) {
-        alert('Passcode is required!')
-        return
-    }
-
-    try {
-        const encodedString = pasteContainer.innerText
-
-        const plaintext = await decryptPaste(encodedString, passcode)
-        pasteContainer.innerText = decompress(plaintext) as string
-    } catch (error) {
-        alert('Could not decrypt. Please, check your password and try again.')
-        console.error('Decryption error', error)
-    }
-})
-
-clearPasteButton.addEventListener('click', () => {
-    pasteFormContainer.style.display = 'block'
-    pasteContainer.style.display = 'none'
-    pasteActionsContainer.style.display = 'none'
-
-    pasteContainer.innerText = ''
-
-    const params = new URLSearchParams(window.location.search)
-    params.delete('paste')
-    window.location.search = params.toString()
 })
