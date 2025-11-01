@@ -1,3 +1,8 @@
+const SALT_SIZE = 16
+const IV_SIZE = 12
+const PBKDF2_ITERATIONS = 100000
+const KEY_SIZE = 256
+
 export async function getKeyMaterial(passcode: string): Promise<CryptoKey> {
     const enc = new TextEncoder()
     return await window.crypto.subtle.importKey(
@@ -11,18 +16,18 @@ export async function getKeyMaterial(passcode: string): Promise<CryptoKey> {
 
 export async function encrypt(plaintext: Uint8Array, passcode: string) {
     const keyMaterial = await getKeyMaterial(passcode)
-    const salt = window.crypto.getRandomValues(new Uint8Array(16))
-    const iv = window.crypto.getRandomValues(new Uint8Array(12))
+    const salt = window.crypto.getRandomValues(new Uint8Array(SALT_SIZE))
+    const iv = window.crypto.getRandomValues(new Uint8Array(IV_SIZE))
 
     const key = await window.crypto.subtle.deriveKey(
         {
             name: 'PBKDF2',
             salt,
-            iterations: 100000,
+            iterations: PBKDF2_ITERATIONS,
             hash: 'SHA-256',
         },
         keyMaterial,
-        { name: 'AES-GCM', length: 256 },
+        { name: 'AES-GCM', length: KEY_SIZE },
         true,
         ['encrypt']
     )
@@ -38,19 +43,19 @@ export async function encrypt(plaintext: Uint8Array, passcode: string) {
 
 export async function decrypt(encryptedBytes: Uint8Array, passcode: string) {
     const keyMaterial = await getKeyMaterial(passcode)
-    const salt = encryptedBytes.slice(0, 16)
-    const iv = encryptedBytes.slice(16, 28)
-    const ciphertext = encryptedBytes.slice(28)
+    const salt = encryptedBytes.slice(0, SALT_SIZE)
+    const iv = encryptedBytes.slice(SALT_SIZE, SALT_SIZE + IV_SIZE)
+    const ciphertext = encryptedBytes.slice(SALT_SIZE + IV_SIZE)
 
     const key = await window.crypto.subtle.deriveKey(
         {
             name: 'PBKDF2',
             salt,
-            iterations: 100000,
+            iterations: PBKDF2_ITERATIONS,
             hash: 'SHA-256',
         },
         keyMaterial,
-        { name: 'AES-GCM', length: 256 },
+        { name: 'AES-GCM', length: KEY_SIZE },
         true,
         ['decrypt']
     )
