@@ -1,22 +1,24 @@
 @import url('minireset.css');
 
 :root {
-    --white: hsl(0, 0%, 100%);
-    --black: hsl(0, 0%, 0%);
-    --border: hsl(0, 0%, 90%);
-    --highlight: hsl(0, 0%, 98%);
-    --shadow: hsla(0, 0%, 78%, 0.53);
-    --primary: hsl(350, 73%, 29%);
+    --capriccio-gray-50: hsl(25, 20%, 97%);
+    --capriccio-gray-200: hsl(25, 12%, 85%);
+    --capriccio-gray-600: hsl(25, 8%, 45%);
+    --capriccio-gray-800: hsl(25, 10%, 25%);
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-        Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+    font-family:
+        system-ui,
+        -apple-system,
+        'Segoe UI',
+        Roboto,
+        'Open Sans',
         sans-serif;
 }
 
 header {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--capriccio-gray-200);
     padding: 0.25rem;
 }
 
@@ -55,8 +57,9 @@ form {
 }
 
 textarea {
-    box-shadow: inset 3px 3px 7px -4px var(--shadow);
-    border: 1px solid var(--border);
+    box-shadow: inset 3px 3px 7px -4px var(--capriccio-gray-200);
+    border: 1px solid var(--capriccio-gray-200);
+    color: var(--capriccio-gray-800);
     border-radius: 5px;
     resize: vertical;
     padding: 1rem;
@@ -65,25 +68,33 @@ textarea {
 
 textarea:focus-visible,
 button:focus-visible {
-    outline: 1px solid var(--primary);
+    outline: 1px solid var(--capriccio-gray-200);
 }
 
 button {
-    font-size: 1rem;
-    color: var(--primary);
-    background-color: var(--white);
-    border: 1px solid var(--primary);
-    border-radius: 5px;
-    padding: 6px 12px;
+    display: inline-block;
+    padding: 6px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-decoration: none;
+    border-radius: 6px;
+    border: 1px solid;
+    transition: all 0.15s ease;
     cursor: pointer;
+    position: relative;
     text-align: center;
-    transition-property: background-color, color;
-    transition-duration: 0.3s;
+    white-space: nowrap;
+    background: var(--capriccio-gray-50);
+    border-color: var(--capriccio-gray-200);
+    color: var(--capriccio-gray-800);
+    box-shadow: 0 1px 0 rgba(31, 35, 40, 0.04);
 }
 
 button:hover {
-    background-color: var(--primary);
-    color: var(--white);
+    background: #f3f4f6;
+    border-color: var(--capriccio-gray-200);
+    box-shadow: 0 1px 0 rgba(31, 35, 40, 0.1);
 }
 
 .grow-wrap {
@@ -112,11 +123,11 @@ button:hover {
     page-break-inside: avoid;
     line-break: anywhere;
     padding: 1rem;
-    border: 1px solid var(--border);
+    border: 1px solid var(--capriccio-gray-800);
     border-radius: 6px;
     margin-bottom: 0.5rem;
     text-align: justify;
-    box-shadow: 3px 3px 7px -4px var(--shadow);
+    box-shadow: 3px 3px 7px -4px var(--capriccio-gray-600);
 }
 
 #pasteActions {
