@@ -38,8 +38,10 @@ export class PasteFormView {
         this.#container.style.display = 'none'
     }
 
-    getPasteContent(): string | undefined {
-        return new FormData(this.#form).get('paste')?.toString()
+    getPasteContent(): string | null {
+        const pasteData = new FormData(this.#form).get('paste')
+
+        return pasteData ? pasteData.toString() : null
     }
 
     onSubmit(handler: (e: Event) => void): void {
