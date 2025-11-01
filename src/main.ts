@@ -1,7 +1,5 @@
-import { compress, decompress } from 'lzma1'
-
-import { decodeFromBase64, encodeToBase64 } from './base64'
-import { decrypt, encrypt } from './crypto'
+import { decompress } from 'lzma1'
+import { createEncryptedPaste, decryptPaste } from './services/paste.service'
 
 import './style.css'
 
@@ -49,10 +47,10 @@ pasteForm.addEventListener('submit', async (e) => {
     if (!paste) return
 
     try {
-        const compressedBytes = new Uint8Array(compress(paste.toString()))
-        const encryptedBytes = await encrypt(compressedBytes, passcode)
-        const encryptedBytesArray = new Uint8Array(encryptedBytes)
-        const encodedString = encodeToBase64(encryptedBytesArray)
+        const encodedString = await createEncryptedPaste(
+            paste.toString(),
+            passcode
+        )
 
         const params = new URLSearchParams(window.location.search)
         params.set('paste', encodedString)
@@ -74,9 +72,8 @@ decryptButton.addEventListener('click', async () => {
 
     try {
         const encodedString = pasteContainer.innerText
-        const decodedBytes = decodeFromBase64(encodedString)
 
-        const plaintext = await decrypt(decodedBytes, passcode)
+        const plaintext = await decryptPaste(encodedString, passcode)
         pasteContainer.innerText = decompress(plaintext) as string
     } catch (error) {
         alert('Could not decrypt. Please, check your password and try again.')
