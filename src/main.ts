@@ -33,7 +33,7 @@ if (pasteContents) {
     pasteContainer.innerText = pasteContents
 }
 
-pasteForm.addEventListener('submit', (e) => {
+pasteForm.addEventListener('submit', async (e) => {
     e.preventDefault()
 
     const passcode = prompt('Enter a passcode to derive the key from')
@@ -48,9 +48,9 @@ pasteForm.addEventListener('submit', (e) => {
 
     if (!paste) return
 
-    const compressedBytes = new Uint8Array(compress(paste.toString()))
-
-    encrypt(compressedBytes, passcode).then((encryptedBytes) => {
+    try {
+        const compressedBytes = new Uint8Array(compress(paste.toString()))
+        const encryptedBytes = await encrypt(compressedBytes, passcode)
         const encryptedBytesArray = new Uint8Array(encryptedBytes)
         const encodedString = encodeToBase64(encryptedBytesArray)
 
@@ -58,7 +58,10 @@ pasteForm.addEventListener('submit', (e) => {
         params.set('paste', encodedString)
 
         window.location.search = params.toString()
-    })
+    } catch (error) {
+        alert('Encryption failed. Please try again.')
+        console.error('Encryption error:', error)
+    }
 })
 
 decryptButton.addEventListener('click', async () => {
