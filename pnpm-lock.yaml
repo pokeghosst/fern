@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       lzma1:
-        specifier: 0.0.2
-        version: 0.0.2
+        specifier: 0.2.0
+        version: 0.2.0
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.0
@@ -586,9 +586,8 @@ packages:
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
-  lzma1@0.0.2:
-    resolution: {integrity: sha512-2l36vnCaTYcCVhIY26eK3npa0ZbtW0B58AhAEyvrAse1UqAVWgvBJeiAhp0pKdnoD7mNic5SctEvgbUZuki7nA==}
-    engines: {node: '>=14.16', npm: '>=7.0'}
+  lzma1@0.2.0:
+    resolution: {integrity: sha512-JkPtHHKANh2je4Gp2kTjtobUXf7+zzfGHYm9PPRnx+Mr4KhAqoyb8dwtCExGaxkJl5upwWStdkIJWpn28XWiHw==}
 
   micromatch@4.0.8:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
@@ -1212,7 +1211,7 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
-  lzma1@0.0.2: {}
+  lzma1@0.2.0: {}
 
   micromatch@4.0.8:
     dependencies:
