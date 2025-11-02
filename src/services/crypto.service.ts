@@ -90,21 +90,14 @@ async function getKeyMaterial(passcode: string): Promise<CryptoKey> {
 
 if (import.meta.vitest) {
     const { describe, it, expect } = import.meta.vitest
-
-    const textToUint8Array = (text: string): Uint8Array<ArrayBuffer> => {
-        return new TextEncoder().encode(text)
-    }
-
-    const uint8ArrayToText = (data: Uint8Array): string => {
-        return new TextDecoder().decode(data)
-    }
+    const { textToBytes, bytesToText } = await import('../util/text')
 
     const AES_GCM_TAG_SIZE = 16
     const ENC_METADATA_SIZE = SALT_SIZE + IV_SIZE + AES_GCM_TAG_SIZE
 
     const passcode = 'foobar'
     const originalText = 'Foo bar baz'
-    const plaintext = textToUint8Array(originalText)
+    const plaintext = textToBytes(originalText)
 
     describe('encrypt', () => {
         it('should encrypt plaintext and return Uint8Array with correct structure', async () => {
@@ -131,7 +124,7 @@ if (import.meta.vitest) {
         })
 
         it('should encrypt unicode in plaintext', async () => {
-            const plaintext = textToUint8Array('Hello 世界 🌍 émoji')
+            const plaintext = textToBytes('Hello 世界 🌍 émoji')
 
             const encrypted = await encrypt(plaintext, passcode)
 
@@ -164,7 +157,7 @@ if (import.meta.vitest) {
             const decrypted = await decrypt(encrypted, passcode)
 
             expect(decrypted).toEqual(plaintext)
-            expect(uint8ArrayToText(decrypted)).toBe(originalText)
+            expect(bytesToText(decrypted)).toBe(originalText)
         })
 
         it('should throw error when decrypting with wrong passcode', async () => {
@@ -206,11 +199,11 @@ if (import.meta.vitest) {
             ]
 
             for (const testCase of testCases) {
-                const plaintext = textToUint8Array(testCase)
+                const plaintext = textToBytes(testCase)
                 const encrypted = await encrypt(plaintext, passcode)
                 const decrypted = await decrypt(encrypted, passcode)
 
-                expect(uint8ArrayToText(decrypted)).toBe(testCase)
+                expect(bytesToText(decrypted)).toBe(testCase)
             }
         })
 
