@@ -123,11 +123,11 @@ button:hover {
     page-break-inside: avoid;
     line-break: anywhere;
     padding: 1rem;
-    border: 1px solid var(--capriccio-gray-800);
+    border: 1px solid var(--capriccio-gray-200);
     border-radius: 6px;
     margin-bottom: 0.5rem;
     text-align: justify;
-    box-shadow: 3px 3px 7px -4px var(--capriccio-gray-600);
+    box-shadow: 3px 3px 7px -4px var(--capriccio-gray-200);
 }
 
 #pasteActions {
