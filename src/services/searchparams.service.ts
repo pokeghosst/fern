@@ -28,5 +28,6 @@ export function setPasteToSearchParams(paste: string) {
 }
 
 export function clearSearchParams() {
-    window.location.search = ''
+    const url = new URL(window.location.href)
+    url.search = ''
 }

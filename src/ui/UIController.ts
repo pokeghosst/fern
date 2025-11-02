@@ -17,7 +17,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import {
-    clearPaste,
+    clearPasteFromUrl,
     createAndSharePaste,
     decryptPaste,
 } from '../services/paste.service'
@@ -85,6 +85,7 @@ export class UIController {
     }
 
     #showPaste(paste: string) {
+        console.log('showing paste', paste)
         this.#formView.hide()
         this.#displayView.show()
         this.#displayView.setContent(paste)
@@ -95,6 +96,6 @@ export class UIController {
         this.#displayView.clearContent()
         this.#formView.show()
 
-        clearPaste()
+        clearPasteFromUrl()
     }
 }

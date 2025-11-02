@@ -46,6 +46,6 @@ export async function decryptPaste(
     return decompress(plaintext) as string
 }
 
-export function clearPaste(): void {
+export function clearPasteFromUrl(): void {
     clearSearchParams()
 }
