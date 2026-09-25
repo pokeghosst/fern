@@ -8,20 +8,22 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "test": "vitest"
+        "test": "vitest",
+        "postinstall": "patch-package"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.0",
-        "eslint": "^9.39.0",
-        "globals": "^16.5.0",
-        "happy-dom": "^20.0.10",
-        "typescript": "^5.9.3",
-        "typescript-eslint": "^8.46.2",
-        "vite": "^6.4.1",
-        "vite-plugin-singlefile": "^2.3.0",
-        "vitest": "^4.0.6"
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.11.0",
+        "globals": "^17.12.0",
+        "happy-dom": "^20.14.5",
+        "patch-package": "^8.0.1",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.70.1",
+        "vite": "^8.3.1",
+        "vite-plugin-singlefile": "^2.3.3",
+        "vitest": "^5.0.1"
     },
     "dependencies": {
-        "lzma1": "0.2.0"
+        "lzma1": "0.3.0"
     }
 }
