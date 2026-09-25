@@ -1,0 +1,17 @@
+diff --git a/node_modules/lzma1/src/lzma.ts b/node_modules/lzma1/src/lzma.ts
+index c50a836..261fb34 100644
+--- a/node_modules/lzma1/src/lzma.ts
++++ b/node_modules/lzma1/src/lzma.ts
+@@ -5,12 +5,6 @@ import {
+ 	OutputBuffer,
+ } from "./streams.js";
+ 
+-interface Mode {
+-	searchDepth: number;
+-	filterStrength: number;
+-	modeIndex: number;
+-}
+-
+ /**
+  * LZMA compression mode levels (1-9)
+  * Higher values provide better compression but are slower
