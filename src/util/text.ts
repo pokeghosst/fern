@@ -17,9 +17,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 export function textToBytes(text: string): Uint8Array<ArrayBuffer> {
-    return new TextEncoder().encode(text)
+  return new TextEncoder().encode(text);
 }
 
 export function bytesToText(bytes: Uint8Array<ArrayBuffer>): string {
-    return new TextDecoder().decode(bytes)
+  return new TextDecoder().decode(bytes);
 }

@@ -16,12 +16,13 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { getPasteFromSearchParams } from './services/searchparams.service'
-import { UIController } from './ui/UIController'
+import { getPasteFromSearchParams } from "./services/searchparams.service";
+import { UIController } from "./ui/UIController";
 
-import './style.css'
+import "./style.css";
 
-const paste = getPasteFromSearchParams()
-document.addEventListener('DOMContentLoaded', () => {
-    new UIController(paste)
-})
+const paste = getPasteFromSearchParams();
+
+document.addEventListener("DOMContentLoaded", () => {
+  new UIController(paste);
+});

@@ -16,35 +16,32 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { getRequiredElement } from '../util'
+import { getRequiredElement } from "../util";
 
 export class PasteFormView {
-    #form: HTMLFormElement
-    #container: HTMLDivElement
+  #form: HTMLFormElement;
+  #container: HTMLDivElement;
 
-    constructor() {
-        this.#form = getRequiredElement('pasteForm', HTMLFormElement)
-        this.#container = getRequiredElement(
-            'pasteFormContainer',
-            HTMLDivElement
-        )
-    }
+  constructor() {
+    this.#form = getRequiredElement("pasteForm", HTMLFormElement);
+    this.#container = getRequiredElement("pasteFormContainer", HTMLDivElement);
+  }
 
-    show(): void {
-        this.#container.style.display = 'block'
-    }
+  show(): void {
+    this.#container.style.display = "block";
+  }
 
-    hide(): void {
-        this.#container.style.display = 'none'
-    }
+  hide(): void {
+    this.#container.style.display = "none";
+  }
 
-    getPasteContent(): string | null {
-        const pasteData = new FormData(this.#form).get('paste')
+  getPasteContent(): string | null {
+    const pasteData = new FormData(this.#form).get("paste");
 
-        return pasteData ? pasteData.toString() : null
-    }
+    return pasteData ? pasteData.toString() : null;
+  }
 
-    onSubmit(handler: (e: Event) => void): void {
-        this.#form.addEventListener('submit', handler)
-    }
+  onSubmit(handler: (e: Event) => void): void {
+    this.#form.addEventListener("submit", handler);
+  }
 }

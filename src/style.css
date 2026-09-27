@@ -1,136 +1,136 @@
-@import url('minireset.css');
+@import url("minireset.css");
 
 :root {
-    --capriccio-gray-50: hsl(25, 20%, 97%);
-    --capriccio-gray-200: hsl(25, 12%, 85%);
-    --capriccio-gray-600: hsl(25, 8%, 45%);
-    --capriccio-gray-800: hsl(25, 10%, 25%);
+  --capriccio-gray-50: hsl(25, 20%, 97%);
+  --capriccio-gray-200: hsl(25, 12%, 85%);
+  --capriccio-gray-600: hsl(25, 8%, 45%);
+  --capriccio-gray-800: hsl(25, 10%, 25%);
 }
 
 body {
-    font-family:
-        system-ui,
-        -apple-system,
-        'Segoe UI',
-        Roboto,
-        'Open Sans',
-        sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Open Sans",
+    sans-serif;
 }
 
 header {
-    border-bottom: 1px solid var(--capriccio-gray-200);
-    padding: 0.25rem;
+  border-bottom: 1px solid var(--capriccio-gray-200);
+  padding: 0.25rem;
 }
 
 nav,
 main {
-    max-width: 768px;
-    width: 90%;
+  max-width: 768px;
+  width: 90%;
 }
 
 nav {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 main {
-    margin: 1rem auto;
+  margin: 1rem auto;
 }
 
 h1 {
-    font-weight: bold;
-    font-size: 1.75rem;
+  font-weight: bold;
+  font-size: 1.75rem;
 }
 
 h1 img {
-    width: 1.5rem;
-    height: auto;
+  width: 1.5rem;
+  height: auto;
 }
 
 h1 span {
-    font-size: 0.75rem;
+  font-size: 0.75rem;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 textarea {
-    box-shadow: inset 3px 3px 7px -4px var(--capriccio-gray-200);
-    border: 1px solid var(--capriccio-gray-200);
-    color: var(--capriccio-gray-800);
-    border-radius: 5px;
-    resize: vertical;
-    padding: 1rem;
-    field-sizing: normal;
+  box-shadow: inset 3px 3px 7px -4px var(--capriccio-gray-200);
+  border: 1px solid var(--capriccio-gray-200);
+  color: var(--capriccio-gray-800);
+  border-radius: 5px;
+  resize: vertical;
+  padding: 1rem;
+  field-sizing: normal;
 }
 
 textarea:focus-visible,
 button:focus-visible {
-    outline: 1px solid var(--capriccio-gray-200);
+  outline: 1px solid var(--capriccio-gray-200);
 }
 
 button {
-    display: inline-block;
-    padding: 6px 16px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    text-decoration: none;
-    border-radius: 6px;
-    border: 1px solid;
-    transition: all 0.15s ease;
-    cursor: pointer;
-    position: relative;
-    text-align: center;
-    white-space: nowrap;
-    background: var(--capriccio-gray-50);
-    border-color: var(--capriccio-gray-200);
-    color: var(--capriccio-gray-800);
-    box-shadow: 0 1px 0 rgba(31, 35, 40, 0.04);
+  display: inline-block;
+  padding: 6px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  border: 1px solid;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  background: var(--capriccio-gray-50);
+  border-color: var(--capriccio-gray-200);
+  color: var(--capriccio-gray-800);
+  box-shadow: 0 1px 0 rgba(31, 35, 40, 0.04);
 }
 
 button:hover {
-    background: #f3f4f6;
-    border-color: var(--capriccio-gray-200);
-    box-shadow: 0 1px 0 rgba(31, 35, 40, 0.1);
+  background: #f3f4f6;
+  border-color: var(--capriccio-gray-200);
+  box-shadow: 0 1px 0 rgba(31, 35, 40, 0.1);
 }
 
 .grow-wrap {
-    display: grid;
+  display: grid;
 }
 .grow-wrap::after {
-    content: attr(data-replicated-value) ' ';
-    white-space: pre-wrap;
-    visibility: hidden;
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
 }
 .grow-wrap > textarea {
-    resize: none;
-    overflow: hidden;
+  resize: none;
+  overflow: hidden;
 }
 .grow-wrap > textarea,
 .grow-wrap::after {
-    padding: 0.5rem;
-    font: inherit;
-    grid-area: 1 / 1 / 2 / 2;
+  padding: 0.5rem;
+  font: inherit;
+  grid-area: 1 / 1 / 2 / 2;
 }
 
 #pasteContainer {
-    display: none;
-    -webkit-column-break-inside: avoid;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    line-break: anywhere;
-    padding: 1rem;
-    border: 1px solid var(--capriccio-gray-200);
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
-    text-align: justify;
-    box-shadow: 3px 3px 7px -4px var(--capriccio-gray-200);
+  display: none;
+  -webkit-column-break-inside: avoid;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  line-break: anywhere;
+  padding: 1rem;
+  border: 1px solid var(--capriccio-gray-200);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  text-align: justify;
+  box-shadow: 3px 3px 7px -4px var(--capriccio-gray-200);
 }
 
 #pasteActions {
-    gap: 0.5rem;
-    justify-content: end;
+  gap: 0.5rem;
+  justify-content: end;
 }

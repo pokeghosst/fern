@@ -17,17 +17,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 export function getPasteFromSearchParams(): string | null {
-    const params = new URLSearchParams(window.location.search)
-    return params.get('paste')
+  const params = new URLSearchParams(window.location.search);
+  return params.get("paste");
 }
 
 export function setPasteToSearchParams(paste: string) {
-    const params = new URLSearchParams(window.location.search)
-    params.set('paste', paste)
-    window.location.search = params.toString()
+  const params = new URLSearchParams(window.location.search);
+  params.set("paste", paste);
+  window.location.search = params.toString();
 }
 
 export function clearSearchParams() {
-    const url = new URL(window.location.href)
-    url.search = ''
+  const url = new URL(window.location.href);
+  url.search = "";
 }

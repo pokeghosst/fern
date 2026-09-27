@@ -17,18 +17,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 export function getRequiredElement<T extends HTMLElement>(
-    id: string,
-    type: new () => T
+  id: string,
+  type: new () => T,
 ): T {
-    const element = document.getElementById(id)
+  const element = document.getElementById(id);
 
-    if (!element) {
-        throw new Error(`Required element with id "${id}" not found in DOM`)
-    }
+  if (!element) {
+    throw new Error(`Required element with id "${id}" not found in DOM`);
+  }
 
-    if (!(element instanceof type)) {
-        throw new Error(`Element "${id}" is not of expected type ${type.name}`)
-    }
+  if (!(element instanceof type)) {
+    throw new Error(`Element "${id}" is not of expected type ${type.name}`);
+  }
 
-    return element as T
+  return element as T;
 }

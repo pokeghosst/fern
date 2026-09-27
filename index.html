@@ -1,40 +1,40 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>fern</title>
-    </head>
-    <body>
-        <header>
-            <nav>
-                <h1>
-                    fern
-                    <span>v%PACKAGE_VERSION%</span>
-                </h1>
-            </nav>
-        </header>
-        <main>
-            <div id="pasteContainer"></div>
-            <div id="pasteActions" style="display: none">
-                <button id="decryptButton">Decrypt</button>
-                <button id="clearButton">Clear</button>
-            </div>
-            <div id="pasteFormContainer">
-                <form id="pasteForm">
-                    <label for="paste" hidden>paste</label>
-                    <div class="grow-wrap">
-                        <textarea
-                            id="paste"
-                            name="paste"
-                            onInput="this.parentNode.dataset.replicatedValue = this.value"
-                            rows="9"
-                        ></textarea>
-                    </div>
-                    <button id="sendPaste">Paste</button>
-                </form>
-            </div>
-        </main>
-        <script type="module" src="/src/main.ts"></script>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fern</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1>
+          fern
+          <span>v%PACKAGE_VERSION%</span>
+        </h1>
+      </nav>
+    </header>
+    <main>
+      <div id="pasteContainer"></div>
+      <div id="pasteActions" style="display: none">
+        <button id="decryptButton">Decrypt</button>
+        <button id="clearButton">Clear</button>
+      </div>
+      <div id="pasteFormContainer">
+        <form id="pasteForm">
+          <label for="paste" hidden>paste</label>
+          <div class="grow-wrap">
+            <textarea
+              id="paste"
+              name="paste"
+              onInput="this.parentNode.dataset.replicatedValue = this.value"
+              rows="9"
+            ></textarea>
+          </div>
+          <button id="sendPaste">Paste</button>
+        </form>
+      </div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>

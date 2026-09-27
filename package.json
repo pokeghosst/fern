@@ -1,29 +1,31 @@
 {
-    "name": "fern",
-    "version": "0.2.0",
-    "description": "Frugal Ethereal encRypted pastebiN in a single HTML file",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-        "test": "vitest",
-        "postinstall": "patch-package"
-    },
-    "devDependencies": {
-        "@eslint/js": "^10.0.1",
-        "eslint": "^10.11.0",
-        "globals": "^17.12.0",
-        "happy-dom": "^20.14.5",
-        "patch-package": "^8.0.1",
-        "typescript": "^6.0.3",
-        "typescript-eslint": "^8.70.1",
-        "vite": "^8.3.1",
-        "vite-plugin-singlefile": "^2.3.3",
-        "vitest": "^5.0.1"
-    },
-    "dependencies": {
-        "lzma1": "0.3.0"
-    }
+  "name": "fern",
+  "version": "0.2.0",
+  "description": "Frugal Ethereal encRypted pastebiN in a single HTML file",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "postinstall": "patch-package",
+    "format": "prettier -w ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
+    "happy-dom": "^20.14.5",
+    "patch-package": "^8.0.1",
+    "prettier": "^3.9.9",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.1",
+    "vite-plugin-singlefile": "^2.3.3",
+    "vitest": "^5.0.1"
+  },
+  "dependencies": {
+    "lzma1": "0.3.0"
+  }
 }

@@ -16,5 +16,5 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-export * from './base64'
-export * from './dom'
+export * from "./base64";
+export * from "./dom";

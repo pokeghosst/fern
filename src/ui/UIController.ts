@@ -17,85 +17,83 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import {
-    clearPasteFromUrl,
-    createAndSharePaste,
-    decryptPaste,
-} from '../services/paste.service'
-import { PasteDisplayView } from './PasteDisplayView'
-import { PasteFormView } from './PasteFormView'
+  clearPasteFromUrl,
+  createAndSharePaste,
+  decryptPaste,
+} from "../services/paste.service";
+import { PasteDisplayView } from "./PasteDisplayView";
+import { PasteFormView } from "./PasteFormView";
 
 export class UIController {
-    #formView: PasteFormView
-    #displayView: PasteDisplayView
+  #formView: PasteFormView;
+  #displayView: PasteDisplayView;
 
-    constructor(paste?: string | null) {
-        this.#formView = new PasteFormView()
-        this.#displayView = new PasteDisplayView()
+  constructor(paste?: string | null) {
+    this.#formView = new PasteFormView();
+    this.#displayView = new PasteDisplayView();
 
-        this.#registerHandlers()
+    this.#registerHandlers();
 
-        if (paste) this.#showPaste(paste)
+    if (paste) this.#showPaste(paste);
+  }
+
+  #registerHandlers() {
+    this.#formView.onSubmit(this.#encryptPaste.bind(this));
+    this.#displayView.onDecrypt(this.#decryptPaste.bind(this));
+    this.#displayView.onClear(this.#clearPaste.bind(this));
+  }
+
+  async #encryptPaste(e: Event) {
+    e.preventDefault();
+
+    const passcode = prompt("Enter a passcode to derive the key from");
+
+    if (!passcode) {
+      alert("Passcode is required!");
+      return;
     }
 
-    #registerHandlers() {
-        this.#formView.onSubmit(this.#encryptPaste.bind(this))
-        this.#displayView.onDecrypt(this.#decryptPaste.bind(this))
-        this.#displayView.onClear(this.#clearPaste.bind(this))
+    const paste = this.#formView.getPasteContent();
+
+    if (!paste) {
+      alert("Nothing to encrypt!");
+      return;
     }
 
-    async #encryptPaste(e: Event) {
-        e.preventDefault()
+    createAndSharePaste(paste, passcode);
+  }
 
-        const passcode = prompt('Enter a passcode to derive the key from')
+  async #decryptPaste() {
+    const passcode = prompt("Enter a passcode to derive the key from");
 
-        if (!passcode) {
-            alert('Passcode is required!')
-            return
-        }
-
-        const paste = this.#formView.getPasteContent()
-
-        if (!paste) {
-            alert('Nothing to encrypt!')
-            return
-        }
-
-        createAndSharePaste(paste, passcode)
+    if (!passcode) {
+      alert("Passcode is required!");
+      return;
     }
 
-    async #decryptPaste() {
-        const passcode = prompt('Enter a passcode to derive the key from')
+    try {
+      const ciphertextPaste = this.#displayView.getContent();
+      const plaintextPaste = await decryptPaste(ciphertextPaste, passcode);
 
-        if (!passcode) {
-            alert('Passcode is required!')
-            return
-        }
-
-        try {
-            const ciphertextPaste = this.#displayView.getContent()
-            const plaintextPaste = await decryptPaste(ciphertextPaste, passcode)
-
-            this.#displayView.setContent(plaintextPaste)
-        } catch (error) {
-            alert(
-                'Could not decrypt. Please, check your password and try again.'
-            )
-            console.error('Decryption error', error)
-        }
+      this.#displayView.setContent(plaintextPaste);
+    } catch (error) {
+      alert("Could not decrypt. Please, check your password and try again.");
+      console.error("Decryption error", error);
     }
+  }
 
-    #showPaste(paste: string) {
-        console.log('showing paste', paste)
-        this.#formView.hide()
-        this.#displayView.show()
-        this.#displayView.setContent(paste)
-    }
+  #showPaste(paste: string) {
+    console.log("showing paste", paste);
+    this.#formView.hide();
+    this.#displayView.show();
+    this.#displayView.setContent(paste);
+  }
 
-    #clearPaste() {
-        this.#displayView.hide()
-        this.#displayView.clearContent()
-        this.#formView.show()
+  #clearPaste() {
+    this.#displayView.hide();
+    this.#displayView.clearContent();
+    this.#formView.show();
 
-        clearPasteFromUrl()
-    }
+    clearPasteFromUrl();
+  }
 }

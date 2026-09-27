@@ -16,36 +16,36 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { compressString, decompressString } from 'lzma1'
-import { decodeFromBase64, encodeToBase64 } from '../util/base64'
-import { decrypt, encrypt } from './crypto.service'
+import { compressString, decompressString } from "lzma1";
+import { decodeFromBase64, encodeToBase64 } from "../util/base64";
+import { decrypt, encrypt } from "./crypto.service";
 import {
-    clearSearchParams,
-    setPasteToSearchParams,
-} from './searchparams.service'
+  clearSearchParams,
+  setPasteToSearchParams,
+} from "./searchparams.service";
 
 export async function createAndSharePaste(
-    content: string,
-    passcode: string
+  content: string,
+  passcode: string,
 ): Promise<void> {
-    const compressedBytes = new Uint8Array(compressString(content))
-    const encryptedBytesArray = new Uint8Array(
-        await encrypt(compressedBytes, passcode)
-    )
-    const ciphertext = encodeToBase64(encryptedBytesArray)
+  const compressedBytes = new Uint8Array(compressString(content));
+  const encryptedBytesArray = new Uint8Array(
+    await encrypt(compressedBytes, passcode),
+  );
+  const ciphertext = encodeToBase64(encryptedBytesArray);
 
-    setPasteToSearchParams(ciphertext)
+  setPasteToSearchParams(ciphertext);
 }
 
 export async function decryptPaste(
-    encodedPaste: string,
-    passcode: string
+  encodedPaste: string,
+  passcode: string,
 ): Promise<string> {
-    const decodedBytes = decodeFromBase64(encodedPaste)
-    const plaintext = await decrypt(decodedBytes, passcode)
-    return decompressString(plaintext) as string
+  const decodedBytes = decodeFromBase64(encodedPaste);
+  const plaintext = await decrypt(decodedBytes, passcode);
+  return decompressString(plaintext) as string;
 }
 
 export function clearPasteFromUrl(): void {
-    clearSearchParams()
+  clearSearchParams();
 }
