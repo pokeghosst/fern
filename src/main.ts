@@ -1,6 +1,6 @@
 /*
 fern -- Frugal Ethereal encRypted pastebiN in a single HTML file
-Copyright (C) 2025 pokeghost.
+Copyright (C) 2025-2026 pokeghost.
 
 fern is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -16,13 +16,88 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { getPasteFromSearchParams } from "./services/searchparams.service";
-import { UIController } from "./ui/UIController";
-
+import {
+  clearPasteFromUrl,
+  decryptPaste,
+  encryptPaste,
+} from "./services/paste.service";
+import {
+  getPasteFromSearchParams,
+  setPasteToSearchParams,
+} from "./services/searchparams.service";
+import { initializeState, State } from "./state";
 import "./style.css";
+import { getElements } from "./ui/elements";
+import { render } from "./ui/render";
 
-const paste = getPasteFromSearchParams();
+export function mountApp(): () => void {
+  const paste = getPasteFromSearchParams();
+  const elements = getElements();
+  let state = initializeState(paste);
 
-document.addEventListener("DOMContentLoaded", () => {
-  new UIController(paste);
-});
+  function setState(next: State): void {
+    state = next;
+    render(elements, state);
+  }
+
+  function handleClear(): void {
+    setState({ name: "new" });
+    clearPasteFromUrl();
+  }
+
+  async function handleSubmit(e: Event): Promise<void> {
+    e.preventDefault();
+
+    const passcode = prompt("Enter a passcode to derive the key from");
+
+    if (!passcode) {
+      alert("Passcode is required!");
+      return;
+    }
+
+    const plaintext = new FormData(elements.form).get("paste")?.toString();
+
+    if (!plaintext) {
+      alert("Nothing to encrypt!");
+      return;
+    }
+
+    const ciphertext = await encryptPaste(plaintext, passcode);
+    setPasteToSearchParams(ciphertext);
+  }
+
+  async function handleDecrypt(): Promise<void> {
+    if (state.name !== "encrypted") return;
+
+    const passcode = prompt("Enter a passcode to derive the key from");
+
+    if (!passcode) {
+      alert("Passcode is required!");
+      return;
+    }
+
+    const ciphertext = elements.pasteContainer.innerText;
+
+    setState({ name: "decrypting", ciphertext });
+
+    try {
+      const plaintext = await decryptPaste(ciphertext, passcode);
+      setState({ name: "decrypted", plaintext });
+    } catch (e) {
+      alert("Could not decrypt. Please, check your password and try again.");
+      console.error("Decryption error", e);
+    }
+  }
+
+  elements.clearButton.addEventListener("click", handleClear);
+  elements.form.addEventListener("submit", handleSubmit);
+  elements.decryptButton.addEventListener("click", handleDecrypt);
+
+  render(elements, state);
+
+  return () => {
+    elements.clearButton.removeEventListener("click", handleClear);
+  };
+}
+
+document.addEventListener("DOMContentLoaded", () => mountApp());

@@ -1,6 +1,6 @@
 /*
 fern -- Frugal Ethereal encRypted pastebiN in a single HTML file
-Copyright (C) 2025 pokeghost.
+Copyright (C) 2026 pokeghost.
 
 fern is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -18,30 +18,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import { getRequiredElement } from "../util";
 
-export class PasteFormView {
-  #form: HTMLFormElement;
-  #container: HTMLDivElement;
-
-  constructor() {
-    this.#form = getRequiredElement("pasteForm", HTMLFormElement);
-    this.#container = getRequiredElement("pasteFormContainer", HTMLDivElement);
-  }
-
-  show(): void {
-    this.#container.style.display = "block";
-  }
-
-  hide(): void {
-    this.#container.style.display = "none";
-  }
-
-  getPasteContent(): string | null {
-    const pasteData = new FormData(this.#form).get("paste");
-
-    return pasteData ? pasteData.toString() : null;
-  }
-
-  onSubmit(handler: (e: Event) => void): void {
-    this.#form.addEventListener("submit", handler);
-  }
+export function getElements() {
+  return {
+    form: getRequiredElement("pasteForm", HTMLFormElement),
+    formContainer: getRequiredElement("pasteFormContainer", HTMLDivElement),
+    pasteContainer: getRequiredElement("pasteContainer", HTMLDivElement),
+    pasteActions: getRequiredElement("pasteActions", HTMLDivElement),
+    decryptButton: getRequiredElement("decryptButton", HTMLButtonElement),
+    clearButton: getRequiredElement("clearButton", HTMLButtonElement),
+  };
 }
+
+export type Elements = ReturnType<typeof getElements>;

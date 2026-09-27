@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.0] - UNRELEASED
+
+### Fixed
+
+- Clearing the paste clears URL params properly
+
 ## [0.2.0] - 2025-11-02
 
 ### Added

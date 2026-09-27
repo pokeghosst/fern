@@ -1,6 +1,6 @@
 /*
 fern -- Frugal Ethereal encRypted pastebiN in a single HTML file
-Copyright (C) 2025 pokeghost.
+Copyright (C) 2025-2026 pokeghost.
 
 fern is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -19,22 +19,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import { compressString, decompressString } from "lzma1";
 import { decodeFromBase64, encodeToBase64 } from "../util/base64";
 import { decrypt, encrypt } from "./crypto.service";
-import {
-  clearSearchParams,
-  setPasteToSearchParams,
-} from "./searchparams.service";
 
-export async function createAndSharePaste(
+export async function encryptPaste(
   content: string,
   passcode: string,
-): Promise<void> {
+): Promise<string> {
   const compressedBytes = new Uint8Array(compressString(content));
   const encryptedBytesArray = new Uint8Array(
     await encrypt(compressedBytes, passcode),
   );
-  const ciphertext = encodeToBase64(encryptedBytesArray);
 
-  setPasteToSearchParams(ciphertext);
+  return encodeToBase64(encryptedBytesArray);
 }
 
 export async function decryptPaste(
@@ -43,9 +38,12 @@ export async function decryptPaste(
 ): Promise<string> {
   const decodedBytes = decodeFromBase64(encodedPaste);
   const plaintext = await decrypt(decodedBytes, passcode);
+
   return decompressString(plaintext) as string;
 }
 
 export function clearPasteFromUrl(): void {
-  clearSearchParams();
+  const url = new URL(window.location.href);
+  url.searchParams.delete("paste");
+  window.history.replaceState(window.history.state, "", url);
 }
