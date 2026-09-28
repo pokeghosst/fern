@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build:default": "tsc && vite build",
+    "build:lzma": "tsc && vite build --mode lzma",
+    "build:all": "rimraf dist && tsc && npm run build:default && npm run build:lzma",
     "preview": "vite preview",
     "test": "vitest",
     "postinstall": "patch-package",
@@ -19,6 +21,7 @@
     "happy-dom": "^20.14.5",
     "patch-package": "^8.0.1",
     "prettier": "^3.9.9",
+    "rimraf": "^6.1.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1",
     "vite": "^8.3.1",
