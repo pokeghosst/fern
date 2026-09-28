@@ -16,22 +16,14 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import {
-  clearPasteFromUrl,
-  decryptPaste,
-  encryptPaste,
-} from "./services/paste.service";
-import {
-  getPasteFromSearchParams,
-  setPasteToSearchParams,
-} from "./services/searchparams.service";
+import { decryptPaste, encryptPaste } from "./services/paste.service";
 import { initializeState, State } from "./state";
 import "./style.css";
 import { getElements } from "./ui/elements";
 import { render } from "./ui/render";
 
 export function mountApp(): () => void {
-  const paste = getPasteFromSearchParams();
+  const paste = new URLSearchParams(window.location.search).get("paste");
   const elements = getElements();
   let state = initializeState(paste);
 
@@ -42,7 +34,10 @@ export function mountApp(): () => void {
 
   function handleClear(): void {
     setState({ name: "new" });
-    clearPasteFromUrl();
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete("paste");
+    window.history.replaceState(window.history.state, "", url);
   }
 
   async function handleSubmit(e: Event): Promise<void> {
@@ -63,7 +58,9 @@ export function mountApp(): () => void {
     }
 
     const ciphertext = await encryptPaste(plaintext, passcode);
-    setPasteToSearchParams(ciphertext);
+    const params = new URLSearchParams(window.location.search);
+    params.set("paste", ciphertext);
+    window.location.search = params.toString();
   }
 
   async function handleDecrypt(): Promise<void> {
