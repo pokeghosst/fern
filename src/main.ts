@@ -17,10 +17,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { decryptPaste, encryptPaste } from "./lib/paste";
-import { initializeState, State } from "./state";
 import "./style.css";
 import { getElements } from "./ui/elements";
 import { render } from "./ui/render";
+import { initializeState, State } from "./ui/state";
 
 export function mountApp(): () => void {
   const paste = new URLSearchParams(window.location.search).get("paste");

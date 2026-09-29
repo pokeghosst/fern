@@ -17,7 +17,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { compressString, decompressString } from "./compression";
-import { decodeFromBase64, encodeToBase64 } from "../util/base64";
+import { decodeFromBase64, encodeToBase64 } from "./base64";
 import { decrypt, encrypt } from "./crypto";
 
 export async function encryptPaste(

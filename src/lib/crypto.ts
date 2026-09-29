@@ -90,7 +90,7 @@ async function getKeyMaterial(passcode: string): Promise<CryptoKey> {
 
 if (import.meta.vitest) {
   const { describe, it, expect } = import.meta.vitest;
-  const { textToBytes, bytesToText } = await import("../util/text");
+  const { textToBytes, bytesToText } = await import("./text");
 
   const AES_GCM_TAG_SIZE = 16;
   const ENC_METADATA_SIZE = SALT_SIZE + IV_SIZE + AES_GCM_TAG_SIZE;
