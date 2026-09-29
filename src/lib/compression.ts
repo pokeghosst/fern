@@ -27,7 +27,6 @@ export async function compressString(
   data: string,
   mode?: CompressionMode,
 ): Promise<Uint8Array> {
-  console.log(__USE_LZMA__);
   if (__USE_LZMA__) {
     return lzmaCompressString(data, mode);
   } else {

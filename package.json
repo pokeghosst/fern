@@ -9,7 +9,7 @@
     "dev:lzma": "vite --mode lzma",
     "build:default": "tsc && vite build",
     "build:lzma": "tsc && vite build --mode lzma",
-    "build:all": "rimraf dist && tsc && npm run build:default && npm run build:lzma",
+    "build:all": "tsc && npm run build:default && npm run build:lzma",
     "preview": "vite preview",
     "test": "vitest",
     "postinstall": "patch-package",

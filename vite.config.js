@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
           const from = path.join(outDir, "index.html");
           const to = path.join(
             outDir,
-            `index-${useLzma ? "lzma" : "native"}.html`,
+            `index-${useLzma ? "lzma" : "native"}-${packageJson.version}.html`,
           );
           if (fs.existsSync(from)) fs.renameSync(from, to);
         },
