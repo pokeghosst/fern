@@ -2,15 +2,19 @@
   "name": "fern",
   "version": "0.3.0",
   "description": "Frugal Ethereal encRypted pastebiN in a single HTML file",
+  "author": "pokeghost",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pokeghosst/fern"
+  },
   "private": true,
   "type": "module",
   "scripts": {
-    "dev:native": "vite",
+    "dev:gzip": "vite",
     "dev:lzma": "vite --mode lzma",
-    "build:default": "tsc && vite build",
+    "build:gzip": "tsc && vite build",
     "build:lzma": "tsc && vite build --mode lzma",
     "build:all": "tsc && npm run build:default && npm run build:lzma",
-    "preview": "vite preview",
     "test": "vitest",
     "postinstall": "patch-package",
     "format": "prettier -w ."

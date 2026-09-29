@@ -4,7 +4,7 @@
 
 ## Features
 
-- LZMA compression.
+- Two versions: using gzip (Compression Streams API, no dependencies) and LZMA compression.
 - Everything in a single HTML file. Portable and easily transportable.
 - AES-GCM encryption using web Crypto API (no third-party dependencies) with PBKDF2 for key derivation.
 - Pastes are decrypted in-place - plaintext exists only after explicitly decrypting. Refresh or close the page and it's back to ciphertext.
@@ -16,15 +16,21 @@ _fern_ supports two "modes of operation": online and offline. "Online" mode assu
 ```bash
 git clone git@github.com:pokeghosst/fern.git
 
-pnpm i
+npm i
 
-pnpm dev
+npm dev:gzip
+# Or
+npm dev:lzma
 ```
 
 ## Building
 
 ```bash
-pnpm build
+npm build:gzip
+# Or
+npm build:lzma
+# Or
+npm build:all
 ```
 
 ## Deploying
