@@ -16,15 +16,15 @@ You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { compressString, decompressString } from "lzma1";
+import { compressString, decompressString } from "./compression";
 import { decodeFromBase64, encodeToBase64 } from "../util/base64";
-import { decrypt, encrypt } from "./crypto.service";
+import { decrypt, encrypt } from "./crypto";
 
 export async function encryptPaste(
   content: string,
   passcode: string,
 ): Promise<string> {
-  const compressedBytes = new Uint8Array(compressString(content));
+  const compressedBytes = new Uint8Array(await compressString(content));
   const encryptedBytesArray = new Uint8Array(
     await encrypt(compressedBytes, passcode),
   );
@@ -39,7 +39,7 @@ export async function decryptPaste(
   const decodedBytes = decodeFromBase64(encodedPaste);
   const plaintext = await decrypt(decodedBytes, passcode);
 
-  return decompressString(plaintext) as string;
+  return (await decompressString(plaintext)) as string;
 }
 
 export function clearPasteFromUrl(): void {

@@ -5,7 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:native": "vite",
+    "dev:lzma": "vite --mode lzma",
     "build:default": "tsc && vite build",
     "build:lzma": "tsc && vite build --mode lzma",
     "build:all": "rimraf dist && tsc && npm run build:default && npm run build:lzma",

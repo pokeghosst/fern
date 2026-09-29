@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
           const from = path.join(outDir, "index.html");
           const to = path.join(
             outDir,
-            `index-${useLzma ? "lzma" : "default"}.html`,
+            `index-${useLzma ? "lzma" : "native"}.html`,
           );
           if (fs.existsSync(from)) fs.renameSync(from, to);
         },
@@ -43,11 +43,7 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       "import.meta.vitest": "undefined",
-    },
-    resolve: {
-      alias: useLzma
-        ? {}
-        : { lzma1: path.resolve(import.meta.dirname, "src/shims/lzma1.ts") },
+      __USE_LZMA__: useLzma,
     },
   };
 });
