@@ -15,20 +15,3 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
-
-export function getRequiredElement<T extends HTMLElement>(
-  id: string,
-  type: new () => T,
-): T {
-  const element = document.getElementById(id);
-
-  if (!element) {
-    throw new Error(`Required element with id "${id}" not found in DOM`);
-  }
-
-  if (!(element instanceof type)) {
-    throw new Error(`Element "${id}" is not of expected type ${type.name}`);
-  }
-
-  return element as T;
-}

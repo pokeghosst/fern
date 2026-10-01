@@ -14,7 +14,7 @@
     "dev:lzma": "vite --mode lzma",
     "build:gzip": "tsc && vite build",
     "build:lzma": "tsc && vite build --mode lzma",
-    "build:all": "tsc && npm run build:default && npm run build:lzma",
+    "build:all": "tsc && npm run build:gzip && npm run build:lzma",
     "test": "vitest",
     "postinstall": "patch-package",
     "format": "prettier -w ."
