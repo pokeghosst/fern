@@ -20,6 +20,10 @@ import {
   compressString as lzmaCompressString,
   decompressString as lzmaDecompressString,
 } from "lzma1";
+import {
+  compressString as gzipCompressString,
+  decompressString as gzipDecompressString,
+} from "./gzip";
 
 type CompressionMode = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -30,9 +34,7 @@ export async function compressString(
   if (__USE_LZMA__) {
     return lzmaCompressString(data, mode);
   } else {
-    return new Uint8Array(
-      await pipe(new Blob([data]), new CompressionStream("gzip")),
-    );
+    return gzipCompressString(data);
   }
 }
 
@@ -40,18 +42,6 @@ export async function decompressString(data: Uint8Array): Promise<string> {
   if (__USE_LZMA__) {
     return lzmaDecompressString(data);
   } else {
-    return new TextDecoder().decode(
-      await pipe(
-        new Blob([new Uint8Array(data)]),
-        new DecompressionStream("gzip"),
-      ),
-    );
+    return gzipDecompressString(data);
   }
-}
-
-async function pipe(
-  input: Blob,
-  stream: CompressionStream | DecompressionStream,
-) {
-  return new Response(input.stream().pipeThrough(stream)).arrayBuffer();
 }
